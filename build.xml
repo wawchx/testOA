@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="war" name="demo" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<!-- src源代码位置 -->
+	<property name="src.dir" location="src" />
+	<!-- common源代码位置 -->
+	<property name="common.dir" location="common" />
+	<!-- lib位置-->
+	<property name="lib.dir" value="lib" />
+	<!-- 编译输出位置 -->
+	<property name="build.dir" location="build" />
+	<!-- 打包发布后的位置 -->
+	<property name="dist.dir" location="dist" />
+	
+	<path id="lib-jar">
+		<fileset dir="${lib.dir}" />
+	</path>
+	<ivy:settings file="ivysettings.xml" />
+
+	<target name="resolve" description="--> resolve and retrieve dependencies with ivy">
+		<ivy:retrieve />
+	</target>
+	<!-- =================================
+		target: clean
+		================================= -->
+	<target name="clean" description="清理发布文件">
+		<delete file="demo-all.zip" />
+		<delete dir="${lib.dir}" includes="*.*" />
+	</target>
+	
+	<!-- =================================
+		target: common.dist
+		================================= -->
+	<target name="common.dist" depends="resolve" description="发布demo_common.jar">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${dist.dir}/WebRoot/WEB-INF/lib" />
+		<!-- 编译common源代码 -->
+		<javac srcdir="${common.dir}" destdir="${build.dir}" encoding="gbk" source="1.7" target="1.7" optimize="true" debug="true" debuglevel="source,lines" includeantruntime="false">
+			<classpath>
+				<path refid="lib-jar" />
+			</classpath>
+		</javac>
+		<!-- 复制classpath下的配置文件 -->
+		<copy todir="${build.dir}">
+			<fileset dir="${common.dir}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<!-- 生成demo_common.jar -->
+		<jar destfile="${dist.dir}/WebRoot/WEB-INF/lib/demo_common.jar" basedir="${build.dir}" compress="true" level="9">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+			</manifest>
+		</jar>
+		<delete dir="${build.dir}" />
+	</target>
+	
+	<!-- =================================
+		target: class.dist
+		================================= -->
+	<target name="class.dist" depends="common.dist" description="发布demo.jar">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${dist.dir}/WebRoot/WEB-INF/lib" />
+		<!-- 编译class源代码 -->
+		<javac srcdir="${src.dir}" destdir="${build.dir}" encoding="gbk" source="1.7" target="1.7" optimize="true" debug="true" debuglevel="source,lines" includeantruntime="false">
+			<classpath>
+				<path refid="lib-jar"/>
+				<pathelement location="${dist.dir}/WebRoot/WEB-INF/lib/demo_common.jar" />
+			</classpath>
+		</javac>
+		<!-- 复制classpath下的配置文件 -->
+		<copy todir="${build.dir}">
+			<fileset dir="${src.dir}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<!-- 生成web.jar -->
+		<jar destfile="${dist.dir}/WebRoot/WEB-INF/lib/demo.jar" basedir="${build.dir}" compress="true" level="9">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+			</manifest>
+		</jar>
+		<delete dir="${build.dir}" />
+	</target>
+	
+	<!-- =================================
+		target: res.dist
+		================================= -->
+	<target name="res.dist" description="发布资源文件">
+		<copy todir="${dist.dir}/WebRoot">
+			<fileset dir="WebRoot">
+				<exclude name="WEB-INF/classes/**" />
+			</fileset>
+		</copy>
+		<!-- 复制lib -->
+		<copy todir="${dist.dir}/WebRoot/WEB-INF/lib">
+			<fileset dir="${lib.dir}">
+				<include name="*.jar" />
+				<exclude name="*-javadoc.jar" />
+				<exclude name="*-sources.jar" />
+				<exclude name="javaee*.jar" />
+				<exclude name="servlet-*.jar" />
+			</fileset>
+		</copy>
+		<!-- 复制classpath下的配置文件 -->
+		<copy todir="${dist.dir}/WebRoot/WEB-INF/classes">
+			<fileset dir="config">
+				<include name="**" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- =================================
+		target: src.dist
+		================================= -->
+	<target name="src.dist" description="发布源代码">
+		<mkdir dir="${dist.dir}/src" />
+		<!-- 生成源代码-->
+		<jar destfile="${dist.dir}/src/demo-src.jar" basedir="${src.dir}" compress="true" level="9">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- =================================
+		target: docs.dist
+		================================= -->
+	<target name="docs.dist" description="发布javadoc文件">
+		<javadoc destdir="${dist.dir}/docs" windowtitle="demo" charset="gbk" encoding="gbk" docencoding="gbk">
+			<classpath>
+				<path refid="lib-jar"/>
+			</classpath>
+			<package name="org.*" />
+			<sourcepath location="${src.dir}" />
+		</javadoc>
+	</target>
+	
+	<!-- =================================
+		target: war
+		================================= -->
+	<target name="war" depends="clean,class.dist,res.dist" description="打包成war发布">
+		<mkdir dir="${dist.dir}/dist" />
+		<jar destfile="ROOT.war" basedir="${dist.dir}/WebRoot" compress="true" level="9" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<!-- =================================
+		target: package
+		================================= -->
+	<target name="package" depends="war,docs.dist" description="打包成zip发布">
+		<mkdir dir="${dist.dir}/dist" />
+		<move todir="${dist.dir}/dist" file="ROOT.war" />
+		<zip destfile="demo-all.zip" basedir="${dist.dir}" compress="true" level="9" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+</project>

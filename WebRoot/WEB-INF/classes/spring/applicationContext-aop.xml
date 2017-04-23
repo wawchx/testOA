@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd"
+	default-autowire="no" default-lazy-init="false">
+
+	<!-- aop事务管理 -->
+
+	<!-- 支持 @AspectJ 标记-->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+
+	<!-- 支持 @Transactional 标记 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- 实现filter拦截不到的,如quartz上的Open Session In View模式 -->
+	<bean id="openSessionInterceptor"
+		class="com.duker.mygift.common.support.spring.OpenSessionInterceptor">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="interceptorRequest"
+			expression="execution(* com.duker.mygift.task.*Task.execute*(..))
+			or execution(* com.duker.mygift.dao.GenericHibernateDao.*(..))" />
+		<aop:aspect ref="openSessionInterceptor">
+			<aop:around pointcut-ref="interceptorRequest"
+				method="intercept" />
+		</aop:aspect>
+	</aop:config>
+	
+	<!-- 以AspectJ方式 定义 AOP -->
+	<aop:config proxy-target-class="true">
+		<!-- 通用事务 -->
+		<aop:advisor
+			pointcut="execution(* com.duker.mygift.dao.GenericHibernateDao.*(..))"
+			advice-ref="myGenericAdvice" />
+		<!-- 业务逻辑事务 -->
+		<aop:advisor
+			pointcut="execution(* com.duker.mygift.service.*Service.*(..)) or execution(* com.duker.mygift.service.*.*Service.*(..))"
+			advice-ref="myBusinessAdvice" />
+	</aop:config>
+
+	<!-- 通用事务 -->
+	<tx:advice id="myGenericAdvice"
+		transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="update*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="delete*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="execute*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 业务逻辑事务 -->
+	<tx:advice id="myBusinessAdvice"
+		transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 新增 -->
+			<tx:method name="save*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="create*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="add*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="insert*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="new*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<!-- 修改 -->
+			<tx:method name="modify*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="update*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="edit*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="change*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="reset*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="merge*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="disMerge*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="allocate*" read-only="false"
+				propagation="REQUIRED" />
+			<!-- 关联/取消关联 -->
+			<tx:method name="associate*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable"/>
+			<tx:method name="disassociate*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<!-- 审核 -->
+			<tx:method name="assess*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="audit*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<!-- 删除 -->
+			<tx:method name="del*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<!-- 执行,授权 -->
+			<tx:method name="do*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="execute*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="grant*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<!-- 登录 -->
+			<tx:method name="login*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+			<!-- 注销 -->
+			<tx:method name="logout*" read-only="false"
+				propagation="REQUIRED" rollback-for="Throwable" />
+		</tx:attributes>
+	</tx:advice>
+</beans>

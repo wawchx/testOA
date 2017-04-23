@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+		"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<!-- 用户管理相关配置 -->
+	<package name="login" extends="default">
+		<action name="login" class="userAction" method="login">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow" />
+			<result name="input">/login.jsp</result>
+			<result name="error">/login.jsp</result>
+			<result name="success">/refresh</result>
+		</action>
+		
+		<action name="logout" class="userAction" method="logout">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="scope">
+				<param name="type">end</param>
+				<param name="session">userName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<result name="success" type="redirect">/login.jsp</result>
+		</action>
+		
+		<action name="finduser" class="userAction" method="findUser">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<result name="success">/updateuser.jsp</result>
+		</action>
+				
+		<action name="modifypwd" class="userAction" method="modifyPwd">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow" />
+			<result name="input">/modifypwd.jsp</result>
+			<result name="resultInfo" type="resultInfo">
+				<param name="types[0]">0</param>
+				<param name="names[0]">登录</param>
+				<param name="urls[0]">/login.jsp?userName=${user.username}</param>
+			</result>
+		</action>
+		
+		<action name="updateuser" class="userAction" method="updateUserInfo">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">user.username</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+		</action>
+	</package>
+	
+	<package name="user" extends="default" namespace="/user">
+		<!-- 用户管理 -->
+		<action name="adduser" class="userAction" method="addUser">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">operationUserName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="resultInfo" type="resultInfo">
+				<param name="types[0]">0</param>
+				<param name="names[0]">修改</param>
+				<param name="urls[0]">/user/finduser.action?userName=${user.username}</param>
+				<param name="types[1]">0</param>
+				<param name="names[1]">查看</param>
+				<param name="urls[1]">/user/index.action?user.username=${user.username}</param>
+			</result>
+		</action>
+		
+		<action name="index" class="userAction" method="findUsers">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">operationUserName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<result>/user/userlist.jsp</result>
+		</action>
+		
+		<action name="resetpwd" class="userAction" method="resetPwd">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">operationUserName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="error" type="prompt">
+				<param name="notClose">true</param>
+			</result>
+			<result name="resultInfo" type="prompt">
+				<param name="notClose">true</param>
+			</result>
+		</action>
+		
+		<action name="finduser" class="userAction" method="findUser">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<result name="success">/user/updateuser.jsp</result>
+		</action>
+		
+		<action name="updateuser" class="userAction" method="updateUser">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">operationUserName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="resultInfo" type="resultInfo">
+				<param name="types[0]">0</param>
+				<param name="names[0]">查看</param>
+				<param name="urls[0]">/user/index.action?user.username=${user.username}</param>
+			</result>
+		</action>
+		
+		<action name="deleteuser" class="userAction" method="deleteUser">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">operationUserName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="error" type="jsonResponse" />
+			<result name="success" type="jsonResponse" />
+		</action>
+		
+		<action name="changeuserstate" class="userAction" method="changeUserState">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">operationUserName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="error" type="jsonResponse" />
+			<result name="success" type="jsonResponse" />
+		</action>
+		
+		<!-- 角色管理 -->
+		<action name="roletree" class="rightAction" method="createRoleTree">
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">operationUserName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+		</action>
+		
+		<action name="findrole" class="rightAction" method="findRole">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<result name="error" type="prompt" />
+			<result name="success">/user/updaterole.jsp</result>
+		</action>
+		
+		<action name="addrole" class="rightAction" method="addRole">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">operationUserName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="success" type="json">
+				<param name="includeProperties">role(\[\d+\])?\.(roleId|roleName)</param>
+			</result>
+			<result name="error" type="jsonResponse" />
+		</action>
+		
+		<action name="updaterole" class="rightAction" method="updateRole">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">operationUserName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="success" type="jsonResponse" />
+			<result name="error" type="jsonResponse" />
+		</action>
+		
+		<action name="deleterole" class="rightAction" method="deleteRole">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">operationUserName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="error" type="jsonResponse" />
+			<result name="success" type="jsonResponse" />
+		</action>
+		
+		<!-- 分配角色/分配权限 -->
+		<action name="menutree" class="rightAction" method="createMenuTree">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">operationUserName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+		</action>
+		
+		<action name="findmenuids" class="rightAction" method="findMenuIds">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="success" type="json">
+				<param name="includeProperties">menuIds(\[\d+\])?</param>
+			</result>
+			<result name="error" type="jsonResponse" />
+		</action>
+		
+		<action name="adduserrole" class="rightAction" method="addUserRole">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName,userType</param>
+				<param name="aliases">operationUserName,userType</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="error" type="jsonResponse" />
+			<result name="success" type="jsonResponse" />
+		</action>
+		
+		<action name="deluserrole" class="rightAction" method="delUserRole">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">operationUserName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="error" type="jsonResponse" />
+			<result name="success" type="jsonResponse" />
+		</action>
+		
+		<action name="addroleright" class="rightAction" method="addRoleRight">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="scope">
+				<param name="session">userName</param>
+				<param name="aliases">operationUserName</param>
+				<param name="key">login.</param>
+			</interceptor-ref>
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="error" type="jsonResponse" />
+			<result name="success" type="jsonResponse" />
+		</action>
+		
+		<action name="updatemenuorder" class="rightAction" method="updateMenuOrder">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="success" type="json">
+				<param name="includeProperties">menus(\[\d+\])?\.(menuId|menuIndex)</param>
+			</result>
+			<result name="error" type="jsonResponse" />
+		</action>
+	</package>
+</struts>

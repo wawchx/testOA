@@ -1,0 +1,199 @@
+/* CSS Document */
+table.mysheet {
+	border: 0px;
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 12px;
+	font-family: Arial, 宋体;
+	color: #000000;
+}
+
+table.mysheet th,table.mysheet td {
+	padding: 2px 2px 2px 2px !important;
+	text-align: center;
+	vertical-align: middle;
+	border-color: #569DD2;
+	border-style: solid;
+	border-width: 0 1px 1px 0;
+}
+
+table.mysheet tr {
+	height: 18px;
+	line-height: 18px;
+}
+
+table.mysheet tr.even {
+	background-color: #EFEFEF;
+}
+
+table.mysheet tr.odd {
+	background-color: #FFFFFF;
+}
+
+table.mysheet th {
+	background-color: #DEEBFC;
+	font-weight: bold;
+	height: 25px;
+	line-height: 25px;
+}
+
+table.mysheet th.last,table.mysheet td.last {
+	border-width: 0 0 1px;
+}
+
+table.mysheet td.align_left {
+	text-align: left;
+}
+
+table.mysheet td.align_right {
+	text-align: right;
+}
+
+table.mysheet th.sortable a {
+	background: url(/img/arrow_off.png) no-repeat;
+}
+
+table.mysheet th.order1 a {
+	background: url(/img/arrow_down.png) no-repeat;
+}
+
+table.mysheet th.order2 a {
+	background: url(/img/arrow_up.png) no-repeat;
+}
+
+table.mysheet th.sorted a,table.mysheet th.sortable a {
+	background-position: right;
+	display: block;
+	width: 100%;
+	color: #000;
+	text-decoration: underline;
+}
+
+table.mysheet th a,table.mysheet th a:hover,table.mysheet th a:visited {
+	color: #000;
+	text-decoration: underline;
+}
+
+table.mysheet td a,table.mysheet td a:hover,table.mysheet td a:visited {
+	text-decoration: underline;
+	color: #0F98C0;
+}
+
+#bannerLeft,#bannerRight {
+	font-size: xx-large;
+	font-weight: bold;
+}
+
+#bannerLeft img,#bannerRight img {
+	margin: 0px;
+}
+
+.xleft,#bannerLeft img {
+	float: left;
+	text-shadow: #7CFC00;
+}
+
+.xright,#bannerRight img {
+	float: right;
+	text-shadow: #7CFC00;
+}
+
+#banner {
+	padding: 0px;
+}
+
+#banner img {
+	border: none;
+}
+
+span.export {
+	padding: 0 4px 1px 20px;
+	display: inline;
+	display: inline-block;
+	cursor: pointer;
+}
+
+span.excel {
+	background: url(/img/ico_file_excel.png) no-repeat left center;
+}
+
+span.csv {
+	background: url(/img/ico_file_csv.png) no-repeat left center;
+}
+
+span.xml {
+	background: url(/img/ico_file_xml.png) no-repeat left center;
+}
+
+span.pdf {
+	background: url(/img/ico_file_pdf.png) no-repeat left center;
+}
+
+span.rtf {
+	background: url(/img/ico_file_rtf.png) no-repeat left center;
+}
+
+span.pagebanner {
+	position: relative;
+	top: 2px;
+	margin-top: 10px;
+	border-bottom: none;
+}
+
+span.pagelinks {
+	position: relative;
+	top: 2px;
+	margin-right: 5px;
+}
+
+div.pagebannertotal {
+	border: 0px;
+	background-color: #DEEBFC;
+	text-align: left;
+	height: 25px;
+	font-weight: bold;
+}
+
+div.exportblock {
+	width: 100%;
+	height: 32px;
+	background-color: #E8F2F6;
+	border: 1px solid #569DD2;
+	margin-top: 10px;
+}
+
+div.operateblock {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	float: left;
+	width: 80%;
+	height: 28px;
+}
+
+div.operateblock input {
+	margin-left: 5px;
+}
+
+div.exportlinks {
+	line-height: 22px;
+	height: 22px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	float: right;
+}
+
+div.pagenodate {
+	margin-left: auto;
+	margin-right: auto;
+	width: 20%;
+	height: 50px;
+	font-size: 14px;
+	font-weight: bold;
+	color: red;
+	text-align: center;
+}
+
+div.pagenodate span {
+	position: relative;
+	top: 20px;
+}

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+		"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<!-- 审核文档信息权限功能相关配置 -->
+	<package name="audit" extends="default" namespace="/audit">
+		
+		<action name="addaudit" class="auditAction" method="addAudit">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="fileUpload">
+				<param name="maximumSize">2097152</param>
+			</interceptor-ref>
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow" />
+			<result name="success" type="redirect">/audit/findeditlist.action</result>
+		</action>
+		
+		<action name="findeditlist" class="auditAction" method="findEditList">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow" />
+			<result name="success">/audit/editlist.jsp</result>
+		</action>
+		
+		<action name="findepartlist" class="auditAction" method="findDepartList">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow" />
+			<result name="success">/audit/departlist.jsp</result>
+		</action>
+		
+		<action name="findmanagerlist" class="auditAction" method="findManagerList">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow" />
+			<result name="success">/audit/managerlist.jsp</result>
+		</action>
+		
+		<action name="findadminlist" class="auditAction" method="findAdminList">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow" />
+			<result name="success">/audit/adminlist.jsp</result>
+		</action>
+		
+		<action name="deleteauditinfo" class="auditAction" method="deleteAuditInfo">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="error" type="jsonResponse" />
+			<result name="success" type="jsonResponse" />
+		</action>
+		
+		<action name="auditinfo" class="auditAction" method="auditInfo">
+			<interceptor-ref name="actionError" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation">
+				<param name="validateAnnotatedMethodOnly">true</param>
+			</interceptor-ref>
+			<interceptor-ref name="workflow">
+				<param name="inputResultName">error</param>
+			</interceptor-ref>
+			<result name="error" type="jsonResponse" />
+			<result name="success" type="jsonResponse" />
+		</action>
+	</package>
+</struts>

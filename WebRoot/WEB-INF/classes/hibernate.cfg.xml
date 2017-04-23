@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd" >
+<hibernate-configuration>
+	<!-- 如果sessionFactory使用dataSource来初始化，就不需再在本文件配置数据库连接相关参数 -->
+	<session-factory>
+		<!-- ################################################### Hibernate 配置属性 ################################################### -->
+		<!-- SQL方言,与具体的jdbc驱动相关 -->
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+		<!-- 是否将sql打印到控制台 默认值: false -->
+		<property name="hibernate.show_sql">false</property>
+		<!-- 是否在将sql打印到控制台前,将sql格式化  默认值: false -->
+		<property name="hibernate.format_sql">false</property>
+		<!-- 是否在生成的SQL中添加注释，以方便调试  默认值: false -->
+		<property name="hibernate.use_sql_comments">false</property>
+		<!-- 默认的schema名 -->
+		<!--property name="hibernate.default_schema">h3play</property-->
+		<!-- 默认的catalog名 -->
+		<!--property name="hibernate.default_catalog"></property-->
+		<!-- SessionFactory创建后，将自动将这个名字绑定到JNDI中 -->
+		<!--property name="hibernate.session_factory_name">hibernate/SessionFactory</property-->
+		<!-- 为单向关联(一对一、多对一)的外连接抓取(outer join fetching)树设置最大深度 -->
+		<!-- 推荐值：0, 1, 2, 3 	(0 意味着关闭默认的外连接抓取) -->
+		<property name="hibernate.max_fetch_depth">3</property>
+		<!-- 为Hibernate关联的批量抓取(batch fetching)设置默认数量 -->
+		<!-- 推荐值：4, 8, 16 -->
+		<!-- 默认值: 1 -->
+		<property name="hibernate.default_batch_fetch_size">4</property>
+		<!-- 默认的EntityMode(实体表现形式) -->
+		<!-- 可选值: pojo/dom4j/dynamic-map -->
+		<!-- 默认值: pojo -->
+		<property name="hibernate.default_entity_mode">pojo</property>
+		<!-- 强制Hibernate按照被更新数据的主键，为SQL插入/更新排序。这么做将减少在高并发系统中事务的死锁 -->
+		<!--property name="hibernate.order_updates">true</property>
+		<property name="hibernate.order_inserts">true</property-->
+		<!-- 是否收集统计数据  默认值: false -->
+		<property name="hibernate.generate_statistics">false</property>
+		<!-- ################################################ Hibernate JDBC和连接属性 ################################################# -->
+		<!-- 如果你想让你的JDBC驱动从executeBatch()返回正确的行计数 , 那么将此属性设为true(开启这个选项通常是安全的).--> 
+		<!-- 同时，Hibernate将为自动版本化的数据使用批量DML.默认值为false -->
+		<property name="hibernate.jdbc.batch_versioned_data">true</property>
+		<!-- 指定JDBC抓取数量的大小 (调用Statement.setFetchSize()) -->
+		<property name="hibernate.jdbc.fetch_size">60</property>
+		<!-- 允许Hibernate使用JDBC2的批量更新. 取值建议取5到30之间的值 -->
+		<property name="hibernate.jdbc.batch_size">100</property>
+		<!-- ################################################### Hibernate 缓存属性 ################################################### -->
+		<!-- 是否使用二级缓存  默认值: true -->
+		<property name="hibernate.cache.use_second_level_cache">false</property>
+		<!-- RegionFactory 的实现类 默认值org.hibernate.cache.impl.NoCachingRegionFactory -->
+		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+		<!-- 是否以频繁的读操作为代价，优化二级缓存来最小化写操作. 该值对于群集缓存非常有用 -->
+		<!-- 默认值: false -->
+		<!--property name="hibernate.cache.use_minimal_puts">true</property-->
+		<!-- 允许查询缓存, 个别查询仍然需要设置为可缓存的  默认值: false -->
+		<property name="hibernate.cache.use_query_cache">true</property>
+		<!-- QueryCacheFactory的实现类 -->
+		<property name="hibernate.cache.query_cache_factory">org.hibernate.cache.internal.StandardQueryCacheFactory</property>
+		<!-- 二级缓存区域名前缀 -->
+		<!--property name="hibernate.cache.region_prefix">h3</property-->
+		<!-- 强制Hibernate以更人性化的格式将数据存入二级缓存 -->
+		<!--property name="hibernate.cache.use_structured_entries">true</property-->
+		<!-- ################################################### Hibernate 事务属性 ################################################### -->
+		<!-- Enable automatic session close at end of transaction 默认值: false -->
+		<!--property name="hibernate.transaction.auto_close_session">true</property-->
+		<!-- Enable automatic flush during the JTA beforeCompletion() callback 默认值: false -->
+		<!--property name="hibernate.transaction.flush_before_completion">true</property-->
+		<!-- ################################################### Hibernate 其它属性 ################################################### -->
+		<!-- hbm2ddl -->
+		<!-- 可选值: validate/update/create/create-drop -->
+		<!-- 默认值: null -->
+		<!--property name="hibernate.hbm2ddl.auto">create</property-->
+		<!-- Context scoping impl for org.hibernate.SessionFactory#getCurrentSession() processing -->
+		<!-- 可选值: jta/thread/managed -->
+		<!-- 默认值: jta -->
+		<property name="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</property>
+		<!-- HQL解析器的实现 org.hibernate.hql.classic.ClassicQueryTranslatorFactory-->
+		<property name="hibernate.query.factory_class">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</property>
+		<!-- 字节码 provider name -->
+		<!-- 可选值: javassist/cglib -->
+		<!-- 默认值: javassist -->
+		<!--property name="hibernate.bytecode.provider">cglib</property-->
+		<!-- ################################################### system-level properties ################################################### -->
+		<!-- 是否使用java.io流通过JDBC读写二进制数据 -->
+		<!-- 默认值: false -->
+		<property name="hibernate.jdbc.use_streams_for_binary">true</property>
+		<!-- 是否打开 reflection optimizer 默认值: false -->
+		<property name="hibernate.bytecode.use_reflection_optimizer">true</property>
+	</session-factory>
+</hibernate-configuration>

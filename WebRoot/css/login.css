@@ -1,0 +1,106 @@
+body {
+	font-size: 12px;
+	font-family: Arial, 宋体;
+	color: #000;
+	background-image: url(/img/login_bg.gif);
+	margin: 0px;
+}
+
+html,body {
+	height: 100%;
+}
+
+.loginouter {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+	vertical-align: middle;
+}
+
+.loginblock {
+	background: url(/img/login_center.png) no-repeat;
+	background-color: transparent;
+	height: 534px;
+	width: 997px;
+	position: relative;
+	margin: auto;
+}
+
+.login {
+	position: relative;
+	left: 466px;
+	top: 100px;
+}
+
+.login .line {
+	padding-top: 15px;
+}
+
+.login .line span {
+	font-family: 黑体;
+	font-weight: bold;
+	letter-spacing: 5px;
+	font-size: 16px;
+	color: #76A0B9;
+	vertical-align: middle;
+}
+
+.login .line input {
+	border: 1px double #B2CEDC;
+	height: 27px;
+	line-height: 30px;
+	vertical-align: middle;
+}
+
+.userName {
+	width: 180px;
+}
+
+.pwd {
+	width: 180px;
+}
+
+.securitycode {
+	width: 85px;
+}
+
+.randimage {
+	cursor: pointer;
+	height: 27px;
+	margin-left: 2px;
+	vertical-align: middle;
+}
+
+.loginbutton {
+	margin-left: 260px;
+	margin-top: 48px;
+}
+
+.copyright {
+	font-family: Arial, 宋体;
+	position: relative;
+	top: 100px;
+	text-align: center;
+	color: #76A0B9;
+}
+
+.nbutton_login,.mbutton_login,.obutton_login {
+	border: 0;
+	height: 23px;
+	width: 65px;
+	color: #000;
+	background: transparent url(/img/login_btn.png);
+}
+
+.nbutton_login {
+	background-position: 0 -27px;
+}
+
+.mbutton_login {
+	background-position: 0 0;
+}
+
+.obutton_login {
+	background-position: 0 -54px;
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+				http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd"
+	default-autowire="no" default-lazy-init="false">
+	<!--
+		定时任务配置,可以是Quartz,也可以是JDK的Timer,同时也可以是Spring的TaskExecutor
+	-->
+
+	<!-- 每隔30分钟抓取一次天气 -->
+	<!--bean id="weatherGrabblerDetail"
+		class="com.duker.mygift.common.support.quartz.JobDetailFactory" >
+		<property name="jobClass"
+			value="com.duker.mygift.common.support.quartz.QuartzJobProxy" />
+		<property name="shouldRecover" value="true" />
+		<property name="durability" value="true" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="org.quartz.job.executeMethod"
+					value="weatherGrabbler.execute" />
+				<entry key="org.quartz.job.persistentProps">
+					<list>
+						<value>weatherRelease</value>
+						<value>internationalWeatherRelease</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="weatherGrabblerTrigger"
+		class="com.duker.mygift.common.support.quartz.TriggerFactory">
+		<property name="jobDetail" ref="weatherGrabblerDetail" />
+		<property name="scheduleBuilder">
+			<bean class="org.quartz.CronScheduleBuilder" factory-method="cronSchedule">
+				<constructor-arg value="0 0/30 * * * ?" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="schedulerBean"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="taskExecutor">
+			<bean class="com.duker.mygift.common.support.concurrent.ThreadPoolExecutorFactory">
+				<property name="corePoolSize" value="0" />
+				<property name="maxPoolSize">
+					<util:constant static-field="java.lang.Integer.MAX_VALUE" />
+				</property>
+				<property name="queueCapacity" value="0" />
+			</bean>
+		</property>
+		<property name="waitForJobsToCompleteOnShutdown" value="false" />
+		<property name="autoStartup" value="true" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="jobDetails">
+			<list>
+				<ref bean="weatherGrabblerDetail"/>
+			</list>
+		</property>
+		<property name="triggers">
+			<list>
+				<所有的触发器一个个添加到这个list里面去,框架会自动执行 >
+				<ref bean="weatherGrabblerTrigger" />
+			</list>
+		</property>
+		<property name="configLocation" value="classpath:quartz.properties" />
+	</bean-->
+</beans>

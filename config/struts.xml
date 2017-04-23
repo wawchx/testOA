@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.excludedClasses"
+		value="
+		java.lang.Runtime,
+		java.lang.System,
+		java.lang.ClassLoader,
+		java.lang.Shutdown,
+		ognl.OgnlContext,
+		ognl.MemberAccess,
+		ognl.ClassResolver,
+		ognl.TypeConverter,
+		com.opensymphony.xwork2.ActionContext" />
+	<package name="default"
+		extends="struts-default,spring-default,json-default,jfreechart-default">
+		<result-types>
+			<result-type name="json"
+				class="org.apache.struts2.json.JSONResult">
+				<param name="excludeNullProperties">true</param>
+				<param name="ignoreHierarchy">false</param>
+				<param name="noCache">true</param>
+				<param name="root">action</param>
+			</result-type>
+			<result-type name="jsonResponse"
+				class="org.apache.struts2.json.JSONResult">
+				<param name="includeProperties">retCode,retMsg</param>
+				<param name="ignoreHierarchy">false</param>
+				<param name="noCache">true</param>
+				<param name="root">action</param>
+			</result-type>
+			<!-- 操作结果提示跳转 -->
+			<result-type name="resultInfo" class="com.duker.mygift.struts.result.ServletDispatcherInfoResult">
+				<param name="location">/resultinfo.jsp</param>
+				<param name="types[0]">1</param>
+				<param name="names[0]">返回</param>
+				<param name="urls[0]">history.back()</param>
+			</result-type>
+			<result-type name="prompt" class="com.duker.mygift.struts.result.ServletDispatcherInfoResult">
+				<param name="location">/prompt.jsp</param>
+				<param name="types[0]">1</param>
+				<param name="names[0]">返回</param>
+				<param name="urls[0]">history.back()</param>
+			</result-type>
+			<result-type name="mock"
+				class="com.opensymphony.xwork2.mock.MockResult" />
+		</result-types>
+
+		<interceptors>
+			<!--
+				别名拦截器,aliases参数是一个OGNL Map表达式,
+				可以将value对应的属性值(首先从valueStack的Action中找,如果找不到再从ActionContext的parameter中找)设置到key对应的属性上
+			-->
+			<interceptor name="alias"
+				class="com.duker.mygift.struts.interceptor.AliasInterceptor" />
+			<interceptor name="scope"
+				class="com.duker.mygift.struts.interceptor.ScopeInterceptor" />
+			 <interceptor name="workflow" class="com.duker.mygift.struts.interceptor.CustomWorkflowInterceptor"/>
+			<!-- ActionError异常拦截器 -->
+			<interceptor name="actionError"
+				class="com.duker.mygift.struts.interceptor.ActionErrorInterceptor">
+				<param name="logEnabled">true</param>
+				<param name="logLevel">error</param>
+			</interceptor>
+			<!-- cookie拦截器 -->
+			<interceptor name="cookie"
+				class="com.duker.mygift.struts.interceptor.CookieInterceptor" />
+			<!-- 大文件上传拦截器 -->
+			<interceptor name="streamInterceptor"
+				class="com.duker.mygift.struts.interceptor.StreamInterceptor" />
+		</interceptors>
+		
+		<default-interceptor-ref name="actionError"/>
+
+		<!--  异常拦截器配置 -->
+		<global-results>
+			<!-- 未知错误,返回 -->
+			<result name="error" type="resultInfo" />
+			<result name="resultInfo" type="resultInfo" />
+			<result name="prompt" type="prompt" />
+		</global-results>
+
+		<global-exception-mappings>
+			<exception-mapping result="error"
+				exception="java.lang.Exception">
+			</exception-mapping>
+		</global-exception-mappings>
+
+	</package>
+
+	<!--- 不同模块的struts配置文件请在此导入 -->
+	<include file="struts/struts-user.xml" />
+	<include file="struts/struts-audit.xml" />
+</struts>

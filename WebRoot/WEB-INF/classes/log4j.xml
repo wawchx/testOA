@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- 日志记录格式: <线程名><yyyy-MM-dd HH:mm:ss.SSS> <优先级> <包名.类名.方法(类名.java:行号)> 信息 -->
+	<!-- 控制台存放地 -->
+	<appender name="_console"
+		class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%p] [%c] [%m]%n" />
+		</layout>
+	</appender>
+
+	<!-- 业务逻辑相关日志存放地 -->
+	<appender name="web_log_file"
+		class="org.apache.log4j.RollingFileAppender">
+		<errorHandler
+			class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${mygift.logRoot}web.log" />
+		<param name="MaxFileSize" value="51200KB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%X{ip}] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%p] [%c] [%m]%X{ua}%n" />
+		</layout>
+	</appender>
+	
+	<!-- 其他日志存放地 -->
+	<appender name="web_other_file"
+		class="org.apache.log4j.RollingFileAppender">
+		<errorHandler
+			class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${mygift.logRoot}other.log" />
+		<param name="MaxFileSize" value="51200KB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%X{ip}] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%p] [%c] [%m]%X{ua}%n" />
+		</layout>
+	</appender>
+	
+	<logger name="com.opensymphony.xwork2.ognl.OgnlValueStack" additivity="false">
+		<level value="error" />
+		<appender-ref ref="_console" />
+		<appender-ref ref="web_other_file" />
+	</logger>
+	
+	<logger name="com.duker" additivity="false">
+		<level value="info" />
+		<appender-ref ref="_console" />
+		<appender-ref ref="web_log_file" />
+	</logger>
+	
+	<root>
+		<level value="warn" />
+		<appender-ref ref="_console" />
+		<appender-ref ref="web_other_file" />
+	</root>
+</log4j:configuration>

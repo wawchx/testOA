@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+	<description>自定义el表达式</description>
+	<tlib-version>1.0</tlib-version>
+	<short-name>my</short-name>
+	<uri>/my-tags</uri>
+
+	<function>
+		<description>用于判断字符串是否为空</description>
+		<name>isNull</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			boolean isNull(java.lang.String)
+		</function-signature>
+		<example>${my:isNull(str)}</example>
+	</function>
+
+	<function>
+		<description>用于判断字符串是否为不空</description>
+		<name>isNotNull</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			boolean isNotNull(java.lang.String)
+		</function-signature>
+		<example>${my:isNotNull(str)}</example>
+	</function>
+
+	<function>
+		<description>用于截取字符串</description>
+		<name>substring</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			java.lang.String substring(java.lang.String, int, int,
+			java.lang.String)
+		</function-signature>
+		<example>${my:substring(str, 0 , 10, "...")}</example>
+	</function>
+	
+	<function>
+		<description>用于截取字符串</description>
+		<name>substringAfter</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			java.lang.String substringAfter(java.lang.String, java.lang.String)
+		</function-signature>
+		<example>${my:substringAfter(str, "private_")}</example>
+	</function>
+	
+	<function>
+		<description>用于截取字符串</description>
+		<name>substringBefore</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			java.lang.String substringBefore(java.lang.String, java.lang.String)
+		</function-signature>
+		<example>${my:substringBefore(str, "private_")}</example>
+	</function>
+
+	<function>
+		<description>用于连接两个字符串</description>
+		<name>strcat</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			java.lang.String strcat(java.lang.String, java.lang.String)
+		</function-signature>
+		<example>${my:strcat("123", "456")}</example>
+	</function>
+
+	<function>
+		<description>用于生成json字符串</description>
+		<name>toJSON</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			java.lang.String toJSON(java.lang.Object, java.lang.String,
+			java.lang.String)
+		</function-signature>
+		<example>${my:toJSON(obj)}</example>
+	</function>
+
+	<function>
+		<description>用于剔除html标签</description>
+		<name>escapeHTML</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			java.lang.String escapeHTML(java.lang.String)
+		</function-signature>
+		<example>${my:escapeHTML(obj)}</example>
+	</function>
+	
+	<function>
+		<description>对url进行编码</description>
+		<name>encodeURI</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			java.lang.String encodeURI(java.lang.String, javax.servlet.http.HttpServletResponse)
+		</function-signature>
+		<example>${my:encodeURI("", pageContext.response)}</example>
+	</function>
+	
+	<function>
+		<description>对url进行编码</description>
+		<name>encodeURIComponent</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			java.lang.String encodeURIComponent(java.lang.String, javax.servlet.http.HttpServletResponse)
+		</function-signature>
+		<example>${my:encodeURIComponent("", pageContext.response)}</example>
+	</function>
+	
+	<function>
+		<description>对url进行解码</description>
+		<name>decodeURIComponent</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			java.lang.String decodeURIComponent(java.lang.String, javax.servlet.http.HttpServletResponse)
+		</function-signature>
+		<example>${my:decodeURIComponent("", pageContext.response)}</example>
+	</function>
+	
+	<function>
+		<description>对xml进行编码</description>
+		<name>escapeXml</name>
+		<function-class>org.apache.commons.lang3.StringEscapeUtils</function-class>
+		<function-signature>
+			java.lang.String escapeXml(java.lang.String)
+		</function-signature>
+		<example>${my:escapeXml("He didn't do that")}</example>
+	</function>
+	
+	<function>
+		<description>对xml进行解码</description>
+		<name>unescapeXml</name>
+		<function-class>org.apache.commons.lang3.StringEscapeUtils</function-class>
+		<function-signature>
+			java.lang.String unescapeXml(java.lang.String)
+		</function-signature>
+		<example>${my:unescapeXml("He didn&#039;t do that")}</example>
+	</function>
+	
+	<function>
+		<description>对javaScript进行编码</description>
+		<name>escapeEcmaScript</name>
+		<function-class>org.apache.commons.lang3.StringEscapeUtils</function-class>
+		<function-signature>
+			java.lang.String escapeEcmaScript(java.lang.String)
+		</function-signature>
+		<example>${my:escapeEcmaScript("He didn't do that")}</example>
+	</function>
+	
+	<function>
+		<description>对javaScript进行解码</description>
+		<name>unescapeEcmaScript</name>
+		<function-class>org.apache.commons.lang3.StringEscapeUtils</function-class>
+		<function-signature>
+			java.lang.String unescapeEcmaScript(java.lang.String)
+		</function-signature>
+		<example>${my:unescapeEcmaScript("He didn\'t do that")}</example>
+	</function>
+	
+	<function>
+		<description>取得服务器地址，包括scheme,host,port</description>
+		<name>getSchemeHostAndPort</name>
+		<function-class>com.duker.mygift.common.util.ServletUtil</function-class>
+		<function-signature>
+			java.lang.String getSchemeHostAndPort(javax.servlet.http.HttpServletRequest)
+		</function-signature>
+		<example>${my:getSchemeHostAndPort(pageContext.request)}</example>
+	</function>
+		
+	<function>
+		<description>获取用户菜单</description>
+		<name>getMenu</name>
+		<function-class>com.duker.mygift.tag.MenuTag</function-class>
+		<function-signature>
+			java.lang.String getMenu(javax.servlet.http.HttpServletRequest)
+		</function-signature>
+		<example>${my:getMenu(pageContext.request)}</example>
+	</function>
+	
+	<function>
+		<description>取得文件名的后缀</description>
+		<name>getSuffix</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			java.lang.String getSuffix(java.lang.String)
+		</function-signature>
+		<example>${my:getSuffix("阿凡达.avi")}</example>
+	</function>
+	
+	<function>
+		<description>打印异常到页面</description>
+		<name>printStackTrace</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			void printStackTrace(javax.servlet.http.HttpServletRequest, javax.servlet.jsp.JspWriter)
+		</function-signature>
+		<example>${my:printStackTrace(pageContext.request, pageContext.out)}</example>
+	</function>
+	
+	<function>
+		<description>获取一个常量map给s:select,s:radio使用</description>
+		<name>getConstMap</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			void getConstMap(javax.servlet.http.HttpServletRequest, java.lang.String)
+		</function-signature>
+		<example>${my:getConstMap(pageContext.request, "true-false")}</example>
+	</function>
+	
+	<function>
+		<description>格式化金额</description>
+		<name>formatMoney</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			java.lang.String formatMoney(java.lang.Long, java.lang.String)
+		</function-signature>
+		<example>${my:formatMoney(110, "元")}</example>
+	</function>
+	
+	<function>
+		<description>转义弹出窗口所需要的字符串</description>
+		<name>escapeYmPrompt</name>
+		<function-class>com.duker.mygift.tag.ELUtil</function-class>
+		<function-signature>
+			java.lang.String escapeYmPrompt(java.lang.String)
+		</function-signature>
+		<example>${my:escapeYmPrompt("阿凡达.avi")}</example>
+	</function>
+</taglib>

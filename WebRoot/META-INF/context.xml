@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+	<Manager className="org.apache.catalina.session.PersistentManager"
+
+		saveOnRestart="true" minIdleSwap="-1" maxIdleSwap="-1" maxIdleBackup="1">
+
+		<Store className="org.apache.catalina.session.JDBCStore"
+
+			sessionTable="tomcat_sessions" sessionIdCol="session_id"
+			sessionValidCol="valid_session" sessionMaxInactiveCol="max_inactive"
+
+			sessionLastAccessedCol="last_access" sessionAppCol="app_name"
+			sessionDataCol="session_data" driverName="com.mysql.jdbc.Driver"
+
+			connectionURL="jdbc:mysql://localhost:3306/goods?useUnicode=true&amp;characterEncoding=utf8&amp;user=root&amp;password=root" />
+	</Manager>
+
+	<Resource name="jdbc/mygift" auth="Container" type="javax.sql.DataSource"
+		factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+		defaultAutoCommit="false" defaultReadOnly="false" schoolWhileIdle="true"
+		schoolOnBorrow="true" schoolOnReturn="false" validationQuery="SELECT 1"
+		validationInterval="30000" timeBetweenEvictionRunsMillis="30000"
+		maxActive="100" maxIdle="100" minIdle="10" maxWait="10000"
+		initialSize="20" removeAbandoned="true" removeAbandonedTimeout="1800"
+		logAbandoned="true" minEvictableIdleTimeMillis="30000" jmxEnabled="false"
+		jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
+		driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/goods?useUnicode=true&amp;characterEncoding=utf8&amp;user=root&amp;password=root" />
+
+</Context>

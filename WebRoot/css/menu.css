@@ -1,0 +1,73 @@
+.menu {
+	color: #000000;
+	cursor: default;
+	position: absolute;
+	top: -1000px;
+	left: 0px;
+	margin: 0px;
+}
+
+.menu ul {
+	margin: 0;
+	padding: 0;
+	width: 136px;
+	border: 1px solid #7CA7CD;
+}
+
+.menu ul.first {
+	border: 0px;
+	font-weight: bold;
+	border-right: 1px solid #7CA7CD;
+}
+
+.menu ul li {
+	font-size: 13px;
+	height: 40px;
+	line-height: 40px;
+	width: 136px;
+}
+
+.over {
+	background: transparent url(/img/left_menu_on.png) repeat-y scroll
+		center center;
+}
+
+.out {
+	background: transparent url(/img/left_menu_bg.png) repeat-y scroll
+		center center;
+}
+
+.menu .prevMark {
+	display: inline-block;
+	width: 83%;
+	padding-left: 10px;
+}
+
+.menu .mark {
+	display: inline-block;
+	font-size: 10px;
+}
+
+.menu a {
+	display: block;
+	text-decoration: none;
+	color: #000;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 10px;
+}
+
+.menu a:visited {
+	text-decoration: none;
+	color: #000;
+}
+
+.menu a:hover {
+	text-decoration: none;
+	color: #000;
+}
+
+.menu a:active {
+	text-decoration: none;
+	color: #000;
+}
